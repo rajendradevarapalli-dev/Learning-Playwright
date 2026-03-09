@@ -1,31 +1,47 @@
+
+
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { test, expect } from '@playwright/test';
+import {loginPage} from '../Pages/loginpage.po';
+
+import data from '../testdata/login.json'
+
+
+test.describe("Longin Functionalities", () => {  
+
+
+
 
 test('User can login with credentials', async ({ page }) => {
-  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-  await page.getByRole('textbox', { name: 'Username' }).click();
-  await page.getByRole('textbox', { name: 'Username' }).fill(process.env.APP_USERNAME);
-  await page.getByRole('textbox', { name: 'Username' }).press('Tab');
-  await page.getByRole('textbox', { name: 'Password' }).fill(process.env.APP_PASSWORD);
-  await page.getByRole('button', { name: 'Login' }).click();
-  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+        
+    const login = new loginPage(page)
+
+    await login.launchURL()
+    await login.verifyLogo()
+    await login.loginwithCreds(process.env.APP_USERNAME, process.env.APP_PASSWORD)
+    await login.loginSuccess()
+
+  
 });
 
 test('User can login with Inavalid username and valid password', async ({ page }) => {
-  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-  await page.getByRole('textbox', { name: 'Username' }).click();
-  await page.getByRole('textbox', { name: 'Username' }).fill('Admin1');
-  await page.getByRole('textbox', { name: 'Username' }).press('Tab');
-  await page.getByRole('textbox', { name: 'Password' }).fill('admin123');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await expect(page.getByText('Invalid credentials' )).toBeVisible();
-});
+    const login = new loginPage(page)
+   await login.launchURL()
+   await login.verifyLogo()
+   await login.loginwithCreds(data.username,process.env.APP_PASSWORD)
+   await login.loginFailure()
+
+})
 
 test('User can login invalid username and invalid password', async ({ page }) => {
-  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-  await page.getByRole('textbox', { name: 'Username' }).click();
-  await page.getByRole('textbox', { name: 'Username' }).fill('Admin');
-  await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill('admin1234');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await expect(page.getByText('Invalid credentials')).toBeVisible();
-});
+   const login = new loginPage(page)
+   await login.launchURL()
+   await login.verifyLogo()
+   await login.loginwithCreds(data.username,data.password)
+   await login.loginFailure()
+})
+
+
+})

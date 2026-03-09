@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import data from "../../testdata/login.json";
+//import data from "../../testdata/login.json";
 // test('Order samsung A55 from Amazon', async ({ page }) => {
 //   await page.goto('https://www.amazon.in/ref=nav_logo');
 //   await page.getByRole('searchbox', { name: 'Search Amazon.in' }).click();
@@ -41,12 +41,17 @@ import data from "../../testdata/login.json";
 // })
 
 
-
 test ( 'Practicing Locators',async({page}) =>{
 
   await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
-  await page.locator('//input[@placeholder="Username"]').fill('Admin')
-  await page.locator('//input[@placeholder="Password"]').fill('admin123');
+const usernametext = await page.locator('(//p[@class="oxd-text oxd-text--p"])[1]').textContent();
+const passwordtext = await page.locator('(//p[@class="oxd-text oxd-text--p"])[2]').textContent();
+const username= usernametext.split(" ")[2];
+const password = passwordtext.split(" ")[2];
+console.log(username);
+console.log(password);
+  await page.locator('//input[@placeholder="Username"]').fill(username)
+  await page.locator('//input[@placeholder="Password"]').fill(password);
   await page.locator('//button[@class="oxd-button oxd-button--medium oxd-button--main orangehrm-login-button"]').click();
   await expect(page.locator('//span [text()="Dashboard"]')).toBeVisible();
   //await page.locator('//span[text()="Admin"]').click();

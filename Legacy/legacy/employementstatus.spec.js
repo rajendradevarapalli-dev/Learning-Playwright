@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-import data from "./../testdata/login.json";
+import data from "../../testdata/login.json";
 test('User can update employement status', async ({ page }) => {
 
     //Lauching URL
