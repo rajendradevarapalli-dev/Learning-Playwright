@@ -39,7 +39,7 @@ export default defineConfig({
     // trace: "retain-on-first-failure",
     // screenshot: "on",
     // video: "retain-on-failure",
-    // headless:true
+    headless: false
     
   },
 
